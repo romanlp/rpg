@@ -3,6 +3,8 @@ var Game = (function() {
     
     var stage  = null;
     var player = null;
+    var direction = [];
+    var input = { "up": false, "down": false, "left": false, "right": false };
     var background  = null;
     var gridOverlay = null;
 
@@ -10,14 +12,27 @@ var Game = (function() {
     var height = 12;
     var squareSize = 50;
 
-    var render = function() {
+    var updateModel = function() {
+	if (input.left)  player.x -= squareSize;
+	if (input.right) player.x += squareSize; 
+	if (input.up)    player.y -= squareSize; 
+	if (input.down)  player.y += squareSize; 
+		
 	if (player.x >= width  * squareSize) player.x = 0;
 	if (player.y >= height * squareSize) player.y = 0;
 	if (player.x < 0) player.x = (width-1) * squareSize;
 	if (player.y < 0) player.y = (height-1) * squareSize;
+    };
+    
+    var render = function() {
 	stage.update();
     };
 
+    var gameLoop = function() {
+	updateModel();
+	render();
+    };
+    
     var buildGridOverlay = function() {
 	var grid = new createjs.Shape();
 	grid.graphics.beginStroke("white"); 
@@ -53,12 +68,17 @@ var Game = (function() {
 	stage.addChild(background, grid, player);
 	
 	createjs.Ticker.setFPS(60);
-	createjs.Ticker.addEventListener("tick", render);
+	createjs.Ticker.addEventListener("tick", gameLoop);
 
-	Mousetrap.bind("up"   , function() { player.y -= squareSize; });
-	Mousetrap.bind("down" , function() { player.y += squareSize; });
-	Mousetrap.bind("left" , function() { player.x -= squareSize; });
-	Mousetrap.bind("right", function() { player.x += squareSize; });
+	Mousetrap.bind("up"   , function() { input.up    = true; });
+	Mousetrap.bind("down" , function() { input.down  = true; });
+	Mousetrap.bind("left" , function() { input.left  = true; });
+	Mousetrap.bind("right", function() { input.right = true; });
+
+	Mousetrap.bind("up"   , function() { input.up    = false; }, "keyup");
+	Mousetrap.bind("down" , function() { input.down  = false; }, "keyup");
+	Mousetrap.bind("left" , function() { input.left  = false; }, "keyup");
+	Mousetrap.bind("right", function() { input.right = false; }, "keyup");
     };
     
     return {
