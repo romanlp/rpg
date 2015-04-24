@@ -1,0 +1,10 @@
+{
+  "name": "rrpg", 
+  "version": "0.0.1", 
+  "private": true ,
+  "dependencies": 
+  {
+    "babel": "5.1.11",
+    "websocket": "1.0.18"
+  }
+}
