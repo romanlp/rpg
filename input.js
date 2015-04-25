@@ -19,6 +19,15 @@ var Input = (function() {
 	Mousetrap.bind("left" , function() { input.left  = false; }, "keyup");
 	Mousetrap.bind("right", function() { input.right = false; }, "keyup");	
     };
+
+    input.arrows = function() {
+	var res = [];
+	if (this.up)    res.push("up");
+	if (this.down)  res.push("down");
+	if (this.left)  res.push("left");
+	if (this.right) res.push("right");
+	return res;
+    };
     
     return input;
     
