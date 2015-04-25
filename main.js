@@ -1,4 +1,4 @@
 document.addEventListener("DOMContentLoaded", function(e) {
-    "use strict";
-    Game.run();
+	"use strict";
+	Game.run();
 });
