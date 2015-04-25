@@ -9,20 +9,20 @@ var Renderer = (function() {
 	var squareSize = 50;
 
 	var buildGridOverlay = function() {
-    		var grid = new createjs.Shape();
-    		grid.graphics.beginStroke("white");
-    		for (var i = 0 ; i < Model.world.width ; ++i) {
-    			grid.graphics
-    				.moveTo(i*squareSize, 0)
-    				.lineTo(i*squareSize, Model.world.height*squareSize-1);
-    		}
-    		for (var j = 0 ; j < Model.world.height ; ++j) {
-    			grid.graphics
-    				.moveTo(0                             , j*squareSize)
-    				.lineTo(Model.world.width*squareSize-1, j*squareSize);
-    		}
-    		grid.graphics.endStroke();
-    		return grid;
+		var grid = new createjs.Shape();
+		grid.graphics.beginStroke("white");
+		for (var i = 0 ; i < Model.world.width ; ++i) {
+			grid.graphics
+				.moveTo(i*squareSize, 0)
+				.lineTo(i*squareSize, Model.world.height*squareSize-1);
+		}
+		for (var j = 0 ; j < Model.world.height ; ++j) {
+			grid.graphics
+				.moveTo(0                             , j*squareSize)
+				.lineTo(Model.world.width*squareSize-1, j*squareSize);
+		}
+		grid.graphics.endStroke();
+		return grid;
 	};
 
 	var init = function() {
@@ -34,8 +34,8 @@ var Renderer = (function() {
 
 		background = new createjs.Shape();
 		background.graphics.beginFill("#9cf292").drawRect(0, 0,
-								  squareSize * Model.world.width,
-								  squareSize * Model.world.height);
+														  squareSize * Model.world.width,
+														  squareSize * Model.world.height);
 
 		var grid = buildGridOverlay();
 
@@ -43,19 +43,19 @@ var Renderer = (function() {
 		imgPerso1.src = "img/characters/perso1.png";
 
 		var spriteSheet = new createjs.SpriteSheet({
-    			images: [imgPerso1],
-    			frames: {width: 50, height: 85, regX: 0, regY: 0},
-    			animations: {
+			images: [imgPerso1],
+			frames: {width: 50, height: 85, regX: 0, regY: 0},
+			animations: {
 				standUp   : [12, 12],
 				standDown : [ 0,  0],
 				standLeft : [ 4,  4],
 				standRight: [ 8,  8],
 				up: 	[13, 15, "standUp"   , 0.20 * Model.player.speed],
-    				down: 	[1 , 3 , "standDown" , 0.20 * Model.player.speed],
-    				right: 	[9 , 11, "standRight", 0.20 * Model.player.speed],
-    				left: 	[5 , 7 , "standLeft" , 0.20 * Model.player.speed]
-    			},
-    			framerate: 20
+				down: 	[1 , 3 , "standDown" , 0.20 * Model.player.speed],
+				right: 	[9 , 11, "standRight", 0.20 * Model.player.speed],
+				left: 	[5 , 7 , "standLeft" , 0.20 * Model.player.speed]
+			},
+			framerate: 20
 		});
 
 		player = new createjs.Sprite(spriteSheet);
