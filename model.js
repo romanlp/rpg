@@ -5,7 +5,7 @@ var Model = (function() {
 		player : {
 			x: 0,
 			y: 0,
-			speed: 3,
+			speed: 4,
 			destination: null,
 			isMoving: function() { return !!this.destination; },
 			setDestination: function(directions) {
@@ -15,30 +15,32 @@ var Model = (function() {
 					origX: this.x,
 					origY: this.y,
 					progress: 0,
-					directions: directions
+					directions: directions,
+					movingX: directions[0] === "left" || directions[0] === "right",
+					movingY: directions[0] === "up"   || directions[0] === "down" ,
+					direction: Game.directionToInt(directions[0])
 				};
 				switch (directions[0]) {
-				case "left" : --self.destination.x; break;
-				case "right": ++self.destination.x; break;
-				case "up"   : --self.destination.y; break;
-				case "down" : ++self.destination.y; break;
+				case "left" : --this.destination.x; break;
+				case "right": ++this.destination.x; break;
+				case "up"   : --this.destination.y; break;
+				case "down" : ++this.destination.y; break;
 				}
 			},
 			move: function(delta) {
 				if (!model.player.isMoving()) return;
+				var destination = model.player.destination;
 
-				model.player.destination.progress += delta / 1000 * model.player.speed;
-				if (model.player.destination.progress >= 1)
-					model.player.destination.progress = 1;
+				destination.progress += delta / 1000 * model.player.speed;
+				if (destination.progress >= 1)
+					destination.progress = 1;
 
-				var direction = Game.directionToInt(model.player.destination.directions[0]);
-				var movingX = model.player.destination.directions[0] === "left" || model.player.destination.directions[0] === "right",
-				    movingY = model.player.destination.directions[0] === "up"   || model.player.destination.directions[0] === "down";
+				if (destination.movingX)
+					model.player.x = destination.origX + destination.progress * destination.direction;
+				if (destination.movingY)
+					model.player.y = destination.origY + destination.progress * destination.direction;
 
-				if (movingX) model.player.x = model.player.destination.origX + model.player.destination.progress * direction;
-				if (movingY) model.player.y = model.player.destination.origY + model.player.destination.progress * direction;
-
-				if (model.player.destination.progress === 1)
+				if (destination.progress === 1)
 					model.player.destination = null;
 			}
 		},

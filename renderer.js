@@ -92,8 +92,6 @@ var Renderer = (function() {
 
 		player = new createjs.Sprite(spriteSheet);
 		player.isMoving = false;
-		player.third = 0;
-
 		stage.addChild(player);
 
 	};
@@ -107,7 +105,6 @@ var Renderer = (function() {
 		}
 		else if (player.isMoving && !Model.player.isMoving()) {
 			player.isMoving = false;
-			player.third  = 0;
 		}
 
 		if (player.isMoving) {
