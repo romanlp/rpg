@@ -39,6 +39,8 @@ var Renderer = (function() {
 
 		var grid = buildGridOverlay();
 
+		stage.addChild(background, grid);
+
 		var imgPerso1 = new Image();
 		imgPerso1.src = "img/characters/perso1.png";
 
@@ -58,11 +60,41 @@ var Renderer = (function() {
 			framerate: 20
 		});
 
+		var imgMap = new Image();
+		imgMap.src = "img/tilesets/" + Map.tileset;
+
+		var mapSheet = new createjs.SpriteSheet({
+			images: [imgMap],
+			frames: {width: 32, height: 32, regX: 0, regY: 0}
+		});
+
+		Map.layer1.forEach(function (element, index) {
+    		var tileSprite = new createjs.Sprite(mapSheet);
+    		tileSprite.gotoAndStop(element);
+
+    		tileSprite.scaleX = 1.57;
+    		tileSprite.scaleY = 1.57;
+    		tileSprite.x = index % Model.world.width * squareSize;
+    		tileSprite.y = Math.floor(index / Model.world.width) * squareSize;
+    		stage.addChild(tileSprite);
+		});
+
+		Map.layer2.forEach(function (element, index) {
+    		var tileSprite = new createjs.Sprite(mapSheet);
+    		tileSprite.gotoAndStop(element);
+
+    		tileSprite.scaleX = 1.57;
+    		tileSprite.scaleY = 1.57;
+    		tileSprite.x = index % Model.world.width * squareSize;
+    		tileSprite.y = Math.floor(index / Model.world.width) * squareSize;
+    		stage.addChild(tileSprite);
+		});
+
 		player = new createjs.Sprite(spriteSheet);
 		player.isMoving = false;
 		player.third = 0;
 
-		stage.addChild(background, grid, player);
+		stage.addChild(player);
 
 	};
 
