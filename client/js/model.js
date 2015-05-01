@@ -5,7 +5,7 @@ var Model = (function() {
 		player : {
 			x: 0,
 			y: 0,
-			speed: 4,
+			speed: 5,
 			destination: null,
 			isMoving: function() { return !!this.destination; },
 			setDestination: function(directions) {

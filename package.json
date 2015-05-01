@@ -1,10 +1,16 @@
 {
-	"name": "rrpg",
-	"version": "0.0.1",
-	"private": true ,
-	"dependencies":
-	{
-		"babel": "5.1.11",
-		"websocket": "1.0.18"
-	}
+  "name": "rrpg",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "4.12.3"
+  },
+  "devDependencies": {
+    "connect-livereload": "^0.5.3",
+    "gulp": "^3.8.11",
+    "gulp-babel": "^5.1.0",
+    "gulp-changed": "^1.2.1",
+    "gulp-nodemon": "^2.0.3",
+    "tiny-lr": "^0.1.5"
+  }
 }
