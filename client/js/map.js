@@ -1,7 +1,7 @@
-var Map = (function() {
+const Map = (function() {
 	"use strict";
 
-	var map = {
+	const map = {
 		tileset: "village.png",
 		layer1: [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,31,105,105,
 				 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,31,105,105,

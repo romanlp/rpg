@@ -1,21 +1,22 @@
-var Model = (function() {
+const Model = (function() {
 	"use strict";
 
-	var model = {
+	const model = {
+
 		player : {
 			x: 0,
 			y: 0,
 			speed: 5,
 			destination: null,
-			isMoving: function() { return !!this.destination; },
-			setDestination: function(directions) {
+			isMoving() { return !!this.destination; },
+			setDestination(directions) {
 				this.destination = {
 					x: this.x,
 					y: this.y,
 					origX: this.x,
 					origY: this.y,
 					progress: 0,
-					directions: directions,
+					directions,
 					movingX: directions[0] === "left" || directions[0] === "right",
 					movingY: directions[0] === "up"   || directions[0] === "down" ,
 					direction: Game.directionToInt(directions[0])
@@ -27,9 +28,9 @@ var Model = (function() {
 				case "down" : ++this.destination.y; break;
 				}
 			},
-			move: function(delta) {
+			move(delta) {
 				if (!model.player.isMoving()) return;
-				var destination = model.player.destination;
+				const destination = model.player.destination;
 
 				destination.progress += delta / 1000 * model.player.speed;
 				if (destination.progress >= 1)
@@ -44,22 +45,23 @@ var Model = (function() {
 					model.player.destination = null;
 			}
 		},
+
 		world : {
 			width : 27,
 			height: 12
+		},
+
+		update(delta) {
+			if (!model.player.isMoving() && Input.arrows().length > 0)
+				model.player.setDestination(Input.arrows());
+
+			model.player.move(delta);
+
+			if (model.player.x >= model.world.width ) model.player.x = 0;
+			if (model.player.y >= model.world.height) model.player.y = 0;
+			if (model.player.x < 0) model.player.x = model.world.width  - 1;
+			if (model.player.y < 0) model.player.y = model.world.height - 1;
 		}
-	};
-
-	model.update = function(delta) {
-		if (!model.player.isMoving() && Input.arrows().length > 0)
-			model.player.setDestination(Input.arrows());
-
-		model.player.move(delta);
-
-		if (model.player.x >= model.world.width ) model.player.x = 0;
-		if (model.player.y >= model.world.height) model.player.y = 0;
-		if (model.player.x < 0) model.player.x = model.world.width  - 1;
-		if (model.player.y < 0) model.player.y = model.world.height - 1;
 	};
 
 	return model;

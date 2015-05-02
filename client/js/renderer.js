@@ -1,22 +1,23 @@
-var Renderer = (function() {
+const Renderer = (function() {
 	"use strict";
 
-	var stage,
+	let stage,
 	    background,
 	    gridOverlay,
 	    player;
 
-	var squareSize = 50;
+	const squareSize = 50,
+		  tileScale  = 1.57;
 
-	var buildGridOverlay = function() {
-		var grid = new createjs.Shape();
+	function buildGridOverlay() {
+		const grid = new createjs.Shape();
 		grid.graphics.beginStroke("white");
-		for (var i = 0 ; i < Model.world.width ; ++i) {
+		for (let i = 0 ; i < Model.world.width ; ++i) {
 			grid.graphics
 				.moveTo(i*squareSize, 0)
 				.lineTo(i*squareSize, Model.world.height*squareSize-1);
 		}
-		for (var j = 0 ; j < Model.world.height ; ++j) {
+		for (let j = 0 ; j < Model.world.height ; ++j) {
 			grid.graphics
 				.moveTo(0                             , j*squareSize)
 				.lineTo(Model.world.width*squareSize-1, j*squareSize);
@@ -25,26 +26,27 @@ var Renderer = (function() {
 		return grid;
 	};
 
-	var init = function() {
-		var canvas = document.getElementById("gameCanvas");
+	function init() {
+		const canvas = document.getElementById("gameCanvas");
 		canvas.width  = Model.world.width  * squareSize;
 		canvas.height = Model.world.height * squareSize;
 
 		stage = new createjs.Stage("gameCanvas");
 
 		background = new createjs.Shape();
-		background.graphics.beginFill("#9cf292").drawRect(0, 0,
-														  squareSize * Model.world.width,
-														  squareSize * Model.world.height);
+		background.graphics.beginFill("#9cf292")
+			               .drawRect(0, 0,
+									 squareSize * Model.world.width,
+									 squareSize * Model.world.height);
 
-		var grid = buildGridOverlay();
+		const grid = buildGridOverlay();
 
 		stage.addChild(background, grid);
 
-		var imgPerso1 = new Image();
+		const imgPerso1 = new Image();
 		imgPerso1.src = "img/characters/perso1.png";
 
-		var spriteSheet = new createjs.SpriteSheet({
+		const spriteSheet = new createjs.SpriteSheet({
 			images: [imgPerso1],
 			frames: {width: 50, height: 85, regX: 0, regY: 0},
 			animations: {
@@ -60,31 +62,31 @@ var Renderer = (function() {
 			framerate: 20
 		});
 
-		var imgMap = new Image();
+		const imgMap = new Image();
 		imgMap.src = "img/tilesets/" + Map.tileset;
 
-		var mapSheet = new createjs.SpriteSheet({
+		const mapSheet = new createjs.SpriteSheet({
 			images: [imgMap],
 			frames: {width: 32, height: 32, regX: 0, regY: 0}
 		});
 
-		Map.layer1.forEach(function (element, index) {
-    		var tileSprite = new createjs.Sprite(mapSheet);
+		Map.layer1.forEach((element, index) => {
+    		const tileSprite = new createjs.Sprite(mapSheet);
     		tileSprite.gotoAndStop(element);
 
-    		tileSprite.scaleX = 1.57;
-    		tileSprite.scaleY = 1.57;
+    		tileSprite.scaleX = tileScale;
+    		tileSprite.scaleY = tileScale;
     		tileSprite.x = index % Model.world.width * squareSize;
     		tileSprite.y = Math.floor(index / Model.world.width) * squareSize;
     		stage.addChild(tileSprite);
 		});
 
-		Map.layer2.forEach(function (element, index) {
-    		var tileSprite = new createjs.Sprite(mapSheet);
+		Map.layer2.forEach((element, index) => {
+    		const tileSprite = new createjs.Sprite(mapSheet);
     		tileSprite.gotoAndStop(element);
 
-    		tileSprite.scaleX = 1.57;
-    		tileSprite.scaleY = 1.57;
+    		tileSprite.scaleX = tileScale;
+    		tileSprite.scaleY = tileScale;
     		tileSprite.x = index % Model.world.width * squareSize;
     		tileSprite.y = Math.floor(index / Model.world.width) * squareSize;
     		stage.addChild(tileSprite);
@@ -93,10 +95,9 @@ var Renderer = (function() {
 		player = new createjs.Sprite(spriteSheet);
 		player.isMoving = false;
 		stage.addChild(player);
-
 	};
 
-	var movePlayer = function() {
+	function movePlayer() {
 		if (!player.isMoving && Model.player.isMoving()) {
 			player.isMoving = true;
 			player.origX = player.x;
@@ -114,14 +115,14 @@ var Renderer = (function() {
 
 	};
 
-	var render = function(e) {
+	function render(e) {
 		movePlayer();
 		stage.update(e);
 	};
 
 	return {
-		init  : init,
-		render: render
+		init  ,
+		render
 	};
 
 })();
