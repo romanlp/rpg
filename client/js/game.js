@@ -2,19 +2,21 @@ var Game = (function() {
 	"use strict";
 
 	var lastTick = 0;
+	var model = new Model();
+	var renderer = new Renderer(model);
 
 	var gameLoop = function(e) {
 		var currentTime = createjs.Ticker.getTime();
 		var delta = currentTime - lastTick;
 		lastTick = currentTime;
 
-		Model.update(delta);
-		Renderer.render(e);
+		model.update(delta);
+		renderer.render(e);
 	};
 
 	var run = function() {
 		Input.setUpKeyBindings();
-		Renderer.init();
+		renderer.init();
 		createjs.Ticker.setFPS(60);
 		createjs.Ticker.addEventListener("tick", gameLoop);
 	};
