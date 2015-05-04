@@ -1,27 +1,27 @@
-var Game = (function() {
+const Game = (function() {
 	"use strict";
 
-	var lastTick = 0;
-	var model = new Model();
-	var renderer = new Renderer(model);
+	let lastTick = 0;
+	let model = new Model();
+	let renderer = new Renderer(model);
 
-	var gameLoop = function(e) {
-		var currentTime = createjs.Ticker.getTime();
-		var delta = currentTime - lastTick;
+	function gameLoop(e) {
+		const currentTime = createjs.Ticker.getTime();
+		const delta = currentTime - lastTick;
 		lastTick = currentTime;
 
 		model.update(delta);
 		renderer.render(e);
 	};
 
-	var run = function() {
+	function run() {
 		Input.setUpKeyBindings();
 		renderer.init();
 		createjs.Ticker.setFPS(60);
 		createjs.Ticker.addEventListener("tick", gameLoop);
 	};
 
-	var directionToInt = function(direction) {
+	function directionToInt(direction) {
 		switch (direction) {
 		case "up"   :
 		case "left" : return -1;
@@ -31,8 +31,8 @@ var Game = (function() {
 	};
 
 	return {
-		directionToInt: directionToInt,
-		run: run
+		directionToInt,
+		run
 	};
 
 })();

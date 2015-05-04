@@ -40,10 +40,10 @@ class Renderer {
 
 		this.stage.addChild(this.background, grid);
 
-		var imgPerso1 = new Image();
+		const imgPerso1 = new Image();
 		imgPerso1.src = "img/characters/perso1.png";
 
-		var spriteSheet = new createjs.SpriteSheet({
+		const spriteSheet = new createjs.SpriteSheet({
 			images: [imgPerso1],
 			frames: { width: 50, height: 85, regX: 0, regY: 0 },
 			animations: {
@@ -70,7 +70,7 @@ class Renderer {
 		var imgMap = new Image();
 		imgMap.src = "img/tilesets/" + this.model.map.tileset;
 
-		var mapSheet = new createjs.SpriteSheet({
+		const mapSheet = new createjs.SpriteSheet({
 			images: [imgMap],
 			frames: { width: 32, height: 32, regX: 0, regY: 0 }
 		});
